@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengming.ParkSystem.Dao.ParkingPlaceMapper" >
+  <resultMap id="BaseResultMap" type="com.fengming.ParkSystem.Entity.ParkingPlace" >
+    <id column="position" property="position" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="orientation" property="orientation" jdbcType="VARCHAR" />
+    <result column="direction" property="direction" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    position, status, orientation, direction
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from parkingplace
+    where position = #{position,jdbcType=VARCHAR}
+  </select>
+   <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from parkingplace
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from parkingplace
+    where position = #{position,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fengming.ParkSystem.Entity.ParkingPlace" >
+    insert into parkingplace (position, status, orientation, 
+      direction)
+    values (#{position,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{orientation,jdbcType=VARCHAR}, 
+      #{direction,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengming.ParkSystem.Entity.ParkingPlace" >
+    insert into parkingplace
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="orientation != null" >
+        orientation,
+      </if>
+      <if test="direction != null" >
+        direction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orientation != null" >
+        #{orientation,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengming.ParkSystem.Entity.ParkingPlace" >
+    update parkingplace
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orientation != null" >
+        orientation = #{orientation,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        direction = #{direction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where position = #{position,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengming.ParkSystem.Entity.ParkingPlace" >
+    update parkingplace
+    set status = #{status,jdbcType=VARCHAR},
+      orientation = #{orientation,jdbcType=VARCHAR},
+      direction = #{direction,jdbcType=VARCHAR}
+    where position = #{position,jdbcType=VARCHAR}
+  </update>
+</mapper>
