@@ -1,6 +1,8 @@
 package com.fengming.ParkSystem.Entity;
 
 public class ParkingPlace {
+    private Integer placeId;
+
     private String position;
 
     private String status;
@@ -8,6 +10,14 @@ public class ParkingPlace {
     private String orientation;
 
     private String direction;
+
+    public Integer getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(Integer placeId) {
+        this.placeId = placeId;
+    }
 
     public String getPosition() {
         return position;

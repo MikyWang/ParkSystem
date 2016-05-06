@@ -3,6 +3,13 @@ var carPosition = {
   x: 750,
   y: 500
 }
+var minDistancePosition = {
+  x: 0,
+  y: 0,
+  orientation: '',
+  direction: '',
+  placeId: 0,
+}
 $(document).ready(function () {
   $.ajax({
     url: 'getParkingPlaces',
@@ -13,7 +20,8 @@ $(document).ready(function () {
           position: { x: match[0], y: match[1]},
           status: parkingPlace.status,
           orientation: parkingPlace.orientation,
-          direction: parkingPlace.direction
+          direction: parkingPlace.direction,
+          placeId: parkingPlace.placeId
         })
       })
       fillFullPlace()
@@ -30,7 +38,16 @@ function fillFullPlace () {
     var x = parkingPlace.position.x
     var y = parkingPlace.position.y
     if (parkingPlace.status == 'full') {
-      ctx.fillRect(x, y, 40, 40)
+      ctx.fillRect(x, y, 38, 38)
+    }
+    ctx.font = 'bold 15px consolas'
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'top'
+    ctx.strokeStyle = 'black'
+    if (parkingPlace.orientation == 'down') {
+      ctx.strokeText(parkingPlace.placeId, parseInt(x) + 10, parseInt(y) + 10)
+    } else {
+      ctx.strokeText(parkingPlace.placeId, parseInt(x) + 10, parseInt(y))
     }
   })
 }
@@ -39,12 +56,7 @@ function calculate () {
   var canvas = document.getElementById('parkingSpace')
   var ctx = canvas.getContext('2d')
   ctx.strokeStyle = 'green'
-  var minDistancePosition = {
-    x: 0,
-    y: 0,
-    orientation: '',
-    direction: ''
-  }
+
   var minDistance = 0
   parkingPlaces.forEach(function (parkingPlace) {
     var x = parkingPlace.position.x
@@ -64,6 +76,7 @@ function calculate () {
         minDistancePosition.y = y
         minDistancePosition.direction = parkingPlace.direction
         minDistancePosition.orientation = parkingPlace.orientation
+        minDistancePosition.placeId = parkingPlace.placeId
       }
     }
   })
@@ -95,5 +108,6 @@ function calculate () {
     }
     ctx.stroke()
     ctx.closePath()
+    ctx.strokeText('最佳位置为' + minDistancePosition.placeId + ',距离为' + minDistance, 220, 500)
   }
 }
